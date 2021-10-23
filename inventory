@@ -1,0 +1,14 @@
+[myself]
+localhost
+[dev]
+utility
+
+[test]
+linuxnode2
+
+[prod]
+linuxnode2
+
+[webservers:children]
+prod
+test

@@ -1,0 +1,27 @@
+- name: fine  Demo
+  hosts: linuxnode2
+  tasks:
+
+   - name: find *.sh files in /etc/profile.d
+     find:
+       paths: /etc/profile.d
+       patterns:
+         - '*.tvh' 
+     register: output
+
+   - name: print the values with lookup loop
+     debug: var=item.path
+   #- debug: msg="{{ item.path }}"
+     #with_items: "{{ output.files }}"
+     loop: "{{ lookup('list',output.files) }}"
+
+
+   - name: update the file
+     lineinfile:
+       path: "{{item.path }}"
+       regexp: '^umask'
+       line: umask 227
+     #with_items: "{{ output.files }}"
+     loop: "{{ lookup('list',output.files) }}"
+     become: yes
+          
